@@ -73,7 +73,7 @@ public class Ex1 {
      *
      * @param xx
      * @param yy
-     * @return an array of doubles representing the coefficients of the polynom.
+     * @return an array of doubles representing the coefficients of the polynom - where each value in the array represents the coefficient of X and the index represents the power of X.
      */
     public static double[] PolynomFromPoints(double[] xx, double[] yy) {
         double[] ans = ZERO;
@@ -106,7 +106,7 @@ public class Ex1 {
      *
      * @param p1 first polynomial function
      * @param p2 second polynomial function
-     * @return true iff p1 represents the same polynomial function as p2.
+     * @return true iff p1 represents the same polynomial function as p2, within a deviation of epsilon.
      */
     public static boolean equals(double[] p1, double[] p2) {
         boolean ans = true;
@@ -131,7 +131,7 @@ public class Ex1 {
      * Computes a String representing the polynomial function.
      * For example the array {2,0,3.1,-1.2} will be presented as the following String  "-1.2x^3 +3.1x^2 +2.0"
      * @param poly the polynomial function represented as an array of doubles
-     * @return String representing the polynomial function:
+     * @return ans - a String representing the polynomial function:
      */
 
     public static String poly(double[] poly) {
@@ -176,17 +176,16 @@ public class Ex1 {
      * @return an x value (x1<=x<=x2) for which |p1(x) - p2(x)| < eps.
      */
     public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
-       // double ans = x1;
         if (x1 > x2) {// make sure x2 is bigger
             double replace = x2; x2 = x1; x1 = replace;
         }
         double x12 = (x1 + x2) / 2;
-        double f1x1 = f(p1 , x1) - f(p2 , x1);
-        double f1x12 = f(p1 , x12)- f(p2 , x12);
-        if (Math.abs(f1x12) < eps) {
+        double f1 = f(p1 , x1) - f(p2 , x1);
+        double f12 = f(p1 , x12)- f(p2 , x12);
+        if (Math.abs(f12) < eps) {
             return x12;
         }
-        if (f1x12 * f1x1 <= 0) {
+        if (f12 * f1 <= 0) {
             return sameValue( p1,  p2, x1, x12, eps);
         }
         else {
@@ -260,7 +259,7 @@ public class Ex1 {
      * getPolynomFromString(poly(p)) should return an array equals to p.
      *
      * @param p - a String representing polynomial function.
-     * @return
+     * @return the array that represents the polynomial given as a string, where each value in the array represents the coefficient of X and the index represents the power of X
      */
     public static double[] getPolynomFromString(String p) {
         double[] ans = ZERO;//  -1.0x^2 +3.0x +2.0
@@ -311,10 +310,9 @@ public class Ex1 {
      *for (int i = 0 ; i <l1 ; i++ {
         ans [i] += p1 [i];
      }
-     *return ans
 	 * @param p1
 	 * @param p2
-	 * @return
+	 * @return ans -the array that represents the sum of two polynomial functions
 	 */
 	public static double[] add(double[] p1, double[] p2) {
         int l1 = p1.length;
@@ -349,7 +347,7 @@ public class Ex1 {
      *
 	 * @param p1
 	 * @param p2
-	 * @return
+	 * @return ans -the array that represents the polynomial that is the multiplication of two polynomial functions
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
         int l1 = p1.length;
@@ -381,7 +379,7 @@ public class Ex1 {
      }
      return ans
 	 * @param po
-	 * @return
+	 * @return ans - the array that represents the derivative of Polynom po
 	 */
 	public static double[] derivative (double[] po) {
         double[] ans = ZERO;
@@ -400,6 +398,13 @@ public class Ex1 {
 		return ans;
 	}
 
+    /**
+     *The function Compacts the given polynomial array by removing any trailing zeros.
+     *
+     * @param p the polynomial array to compact
+     * @return ans - a new array containing only the coefficients up to the last non-zero term. If the polynomial is all zeros, returns {0}.
+     * If there are no trailing zeros, the returned array is identical to the input array.
+     */
     public static double[] compact (double[] p) {
         double[] ans = ZERO;
         int i = p.length-1;
@@ -417,6 +422,11 @@ public class Ex1 {
         return ans;
     }
 
+    /**
+     * This function Checks whether all characters in the input string are valid as part of a polynomial.
+     * @param s a String representing a polynomial
+     * @return true or false.
+     */
     public static boolean isokpoly (String s) {
         boolean ans = true;
         for (int i = 0 ; i < s.length() ; i++){
@@ -430,6 +440,15 @@ public class Ex1 {
         return ans;
     }
 
+    /**
+     * This function extracts the exponent of the first X (starting from the given index) in a polynomial string.
+     * @param s the string representing a polynomial or part of a polynomial (e.g., "3x^2+4x", "x", "5").
+     * @param start_search_index the index in the string from which to start searching for the power value.
+     * @return the value of the power of X in the term:
+     * - returns 0 if the term contains no 'x' or 'X'.
+     * - returns 1 if 'x' or 'X' is present but there is no '^' indicating an explicit exponent.
+     * - returns the integer value following '^' up to the next '+' or '-' or end of string.
+     */
     public static int power_value (String s, int start_search_index){
         String value = "";
         if (s.indexOf('X') == -1 && s.indexOf('x') == -1){
@@ -453,6 +472,16 @@ public class Ex1 {
         return Integer.valueOf(value) ;
     }
 
+    /**
+     * This function extracts the coefficient of the first X (starting from the given index) in a polynomial string.
+     * @param s the string representing a polynomial or part of a polynomial (e.g., "3.7x^2+4x", "x", "5").
+     * @param start_search_index the index in the string from which to start searching for the coefficient value.
+     * @return the value of the coefficient of X as a double:
+     * - returns 1 if the first character at start_search_index is 'X'.
+     * - returns -1 if the first characters are "-X".
+     * - returns the numeric value parsed from the characters starting at start_search_index up to the next 'X', or all remaining characters if no 'X' is found.
+     *  */
+
     public static double valueCoefficient(String s ,int start_search_index ) {
         String value= "";
         int indexofX = s.indexOf('X' , start_search_index);
@@ -475,6 +504,13 @@ public class Ex1 {
         return Double.valueOf(value);
     }
 
+    /**
+     * This function finds the position of the next '+' or '-' sign in the given string.
+     * @param p the string representing a polynomial or part of a polynomial.
+     * @return :
+     * - returns 0 if no '+' or '-' is found.
+     * - otherwise, returns the index of the first occurrence of '+' or '-' plus one.
+     */
     public static int nextsign (String p){
         int cutString = 0;
         if (p.indexOf('+') == -1 && p.indexOf('-') == -1 ){
@@ -491,7 +527,5 @@ public class Ex1 {
         }
         return cutString + 1;
     }
-
-
     }
 

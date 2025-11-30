@@ -345,6 +345,17 @@ class Ex1Test {
 		assertEquals(a1,area, Ex1.EPS);
 	}
 
+    @Test
+    public void testArea4() {
+        double x1=1, x2=3;
+        double[] po_a = {0, 2, 3, -1};
+        double[] po_b = {0, 1, 2, -1};
+        double exepted = 12.6666667;
+        double area = Ex1.area(po_a, po_b, x1, x2, 50);
+        assertEquals(exepted ,area, Ex1.EPS);
+    }
+
+
 @Test
     public void testcompact () {
         double [] p1 = {0};
