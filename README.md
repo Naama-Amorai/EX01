@@ -12,4 +12,4 @@ The primary objective of the project is to implement and analyze functions that 
 
 For each function, there is at least one test function that verifies its correctness, with a total of 35 tests in the project.
 The following is the graphical output of the project's main:
-![image_Alt]()
+![image_Alt](https://github.com/Naama-Amorai/EX01/blob/c8f2ea9dce75141d60db897ffb53992b73aad022/ex1.png)
