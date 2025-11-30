@@ -83,6 +83,9 @@ public class Ex1 {
             double x1 = xx[0], x2 = xx[1];
             double y1 = yy[0], y2 = yy[1];
             if (lx == 2) {
+                if (x2 == x1){
+                    return null;
+                }
                 ans = new double[2];
                 double m = (y2 - y1) / (x2 - x1);
                 ans[1] = m;
@@ -91,6 +94,9 @@ public class Ex1 {
             } else {
                 double x3 = xx[2], y3 = yy[2];
                 double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
+                if (denom == 0){
+                    return null;
+                }
                 double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
                 double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
                 double C = (y1 * x2 * x3 * (x2 - x3) + y2 * x3 * x1 * (x3 - x1) + y3 * x1 * x2 * (x1 - x2)) / denom;
